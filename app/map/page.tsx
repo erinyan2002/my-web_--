@@ -219,7 +219,7 @@ function InfoChip({ label, value }: { label: string; value: string }) {
 
 // ── 메인 페이지 ───────────────────────────────────────────────
 export default function MapPage() {
-  const [photos, setPhotos] = useState<MapPhoto[]>(() => {
+  const [photos] = useState<MapPhoto[]>(() => {
     if (typeof window === "undefined") return [];
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -242,11 +242,6 @@ export default function MapPage() {
     return [photos[0].lat, photos[0].lng];
   }, [photos]);
 
-  function handleClear() {
-    localStorage.removeItem(STORAGE_KEY);
-    setPhotos([]);
-    setActiveCluster(null);
-  }
 
   return (
     <main style={{ minHeight: "100vh", background: "#f8fafc", padding: "24px", paddingBottom: "110px" }}>
@@ -263,22 +258,12 @@ export default function MapPage() {
               마커를 클릭하면 사진 전체보기 — 같은 위치 사진은 하나로 묶어서 보여줍니다.
             </p>
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Link href="/" style={{
-              padding: "12px 18px", background: "#0f172a", color: "white",
-              borderRadius: "12px", textDecoration: "none", fontWeight: 700,
-            }}>
-              Back to Upload
-            </Link>
-            {photos.length > 0 && (
-              <button onClick={handleClear} style={{
-                padding: "12px 18px", background: "#ef4444", color: "white",
-                border: "none", borderRadius: "12px", fontWeight: 700, cursor: "pointer",
-              }}>
-                전체 삭제
-              </button>
-            )}
-          </div>
+          <Link href="/" style={{
+            padding: "12px 18px", background: "#0f172a", color: "white",
+            borderRadius: "12px", textDecoration: "none", fontWeight: 700,
+          }}>
+            Back to Upload
+          </Link>
         </div>
 
         {/* 지도 */}
